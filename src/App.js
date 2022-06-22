@@ -4,6 +4,7 @@ import { Button, Layout, Tag, Space, Table } from "antd"
 import { PlusCircleFilled } from '@ant-design/icons';
 import AddDrawer from './Drawer';
 import { useState } from 'react';
+import Sidebar from "./SideBar"
 
 
 
@@ -53,10 +54,10 @@ function App()
   console.log("values", values,"error" ,errorInfo)
   return (
     <div className="App">
-    
-        
-        <Button
+      <Sidebar>
+      <Button
           type="primary"
+          style={{width: "200px", margin: "2rem auto"}}
           icon={<PlusCircleFilled />} data-testid="add-contact-button"
           onClick={()=>setShowDrawer(true)}
         >Add New Contact</Button>
@@ -72,6 +73,8 @@ function App()
           handleOnFinish={handleAddFormOnFinish}
           handleOnFinishFailed={handleAddFormOnFinishFailed}
           />
+
+      </Sidebar>
     </div>
   );
 }
