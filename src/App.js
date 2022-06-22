@@ -1,18 +1,23 @@
-import logo from './logo.svg';
 import './App.css';
 import { Button, Layout, Tag, Space, Table } from "antd"
-import { PlusCircleFilled } from '@ant-design/icons';
+import { PlusCircleFilled, DeleteFilled } from '@ant-design/icons';
 import AddDrawer from './Drawer';
 import { useState } from 'react';
 import Sidebar from "./SideBar"
+import { useDispatch,useSelector } from 'react-redux';
+import { deleteAllContacts, addContact } from './redux/contact/ContactSlice';
 
 
 
-function App()
+
+
+const App=()=>
 {
   const [showDrawer, setShowDrawer] = useState(false)
-  const [values, setValues] = useState([])
   const [errorInfo, setErrorInfo] = useState("")
+  const dispatch = useDispatch()
+
+  const {contacts} = useSelector(state => state.contacts)
 
   //Table Data
   const columns = [
@@ -33,17 +38,12 @@ function App()
       key: 'phoneNumber',
     },
   ];
-  const data = [
-  ];
+ 
 
   //Functions
 
   const handleAddFormOnFinish = (data) =>
   {
-    setValues([...values, {
-      key: values.length + 1,
-      ...data
-    }])
     setShowDrawer(false)
   }
   const handleAddFormOnFinishFailed = (errorInfo) =>
@@ -51,18 +51,29 @@ function App()
     setErrorInfo(errorInfo)
   }
 
-  console.log("values", values,"error" ,errorInfo)
+  console.log("values", contacts,"error" ,errorInfo)
   return (
     <div className="App">
       <Sidebar>
-      <Button
+        <div style={{display:"flex", margin: "2rem auto"}}>
+        <Button
           type="primary"
-          style={{width: "200px", margin: "2rem auto"}}
+            style={{
+              width: "200px", marginRight: "1rem"
+            }}
           icon={<PlusCircleFilled />} data-testid="add-contact-button"
-          onClick={()=>setShowDrawer(true)}
+          onClick={()=> setShowDrawer(true)}
         >Add New Contact</Button>
+        <Button
+          type="danger"
+          style={{width: "200px",  color: "black"}}
+          icon={<DeleteFilled />} data-testid="add-contact-button"
+          onClick={()=> dispatch(deleteAllContacts)}
+        >Delete All Contacts</Button>
+        </div>
+    
         <Layout.Content>
-        <Table columns={columns} dataSource={values} />
+        <Table columns={columns} dataSource={contacts} />
 
         </Layout.Content>
       
@@ -79,4 +90,5 @@ function App()
   );
 }
 
-export default App;
+
+export default  (App);

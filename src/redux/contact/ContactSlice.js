@@ -1,18 +1,26 @@
-import { ADD_CONTACT } from "./actionTypes"
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    allContacts : []
+    contacts: []
 }
 
 
-const contactReducer = (state=initialState, action) =>
-{
-    switch (action.type)
-    {
-        case ADD_CONTACT:
-
-        
-        default:
-            return state
+const contactSlice = createSlice({
+    name: "contacts",
+    initialState,
+    reducers: {
+        deleteAllContacts: (state) =>
+        {
+            state.contacts = []
+        },
+        addContact: (state, action) =>
+        {
+            const newContact = action.payload;
+            state.contacts = state.contacts.push(newContact)
+        }
     }
-}
+})
+
+export const {deleteAllContacts, addContact} = contactSlice.actions
+
+export default contactSlice.reducer

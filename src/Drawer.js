@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Drawer, Form, Button,Input, Checkbox } from "antd"
+import { addContact } from './redux/contact/ContactSlice'
+import { useDispatch,useSelector } from 'react-redux';
 
 function AddDrawer({ show, handleOnClose , handleOnFinish, handleOnFinishFailed})
 {
+  const dispatch = useDispatch()
+
+  const {contacts} = useSelector(state => state.contacts)
     const initialValues = {
         firstName: "",
         lastName: "",
@@ -90,7 +95,10 @@ function AddDrawer({ show, handleOnClose , handleOnFinish, handleOnFinishFailed}
                         style={{ width: "48%", marginRight: "8px" }}
                         type="primary"
                         htmlType="submit"
-                        
+                        onClick={()=>dispatch( addContact({
+                          key: contacts.length + 1,
+                            ...contacts
+                        }))}
                     >
                          Add
                     </Button>
